@@ -1,0 +1,138 @@
+### ============================
+### VERSION 1 - Client-Server Basic
+### ============================
+
+### Lấy danh sách sách
+GET http://127.0.0.1:5000/api/v1/books
+Content-Type: application/json
+
+###
+
+### Lấy sách ID=1
+GET http://127.0.0.1:5000/api/v1/books/1
+Content-Type: application/json
+
+###
+
+### Thêm sách mới
+POST http://127.0.0.1:5000/api/v1/books
+Content-Type: application/json
+
+{
+  "title": "Python 101",
+  "author": "Mike"
+}
+
+###
+
+### Xóa sách ID=1
+DELETE http://127.0.0.1:5000/api/v1/books/1
+
+
+
+### ============================
+### VERSION 2 - Uniform Interface
+### ============================
+
+### Lấy danh sách sách
+GET http://127.0.0.1:5000/api/v2/books
+Content-Type: application/json
+
+###
+
+### Lấy sách cụ thể
+GET http://127.0.0.1:5000/api/v2/books/2
+Content-Type: application/json
+
+###
+
+### Thêm sách mới
+POST http://127.0.0.1:5000/api/v2/books
+Content-Type: application/json
+
+{
+  "title": "Fluent Python",
+  "author": "Luciano Ramalho"
+}
+
+###
+
+### Sửa thông tin sách (PUT - chuẩn Uniform Interface)
+PUT http://127.0.0.1:5000/api/v2/books/2
+Content-Type: application/json
+
+{
+  "title": "Fluent Python - 2nd Edition",
+  "author": "Luciano Ramalho"
+}
+
+###
+
+### Xóa sách
+DELETE http://127.0.0.1:5000/api/v2/books/2
+
+
+
+### ============================
+### VERSION 3 - Stateless
+### ============================
+
+### Lấy token đăng nhập (stateless JWT)
+POST http://127.0.0.1:5000/api/v3/books/login
+Content-Type: application/json
+
+{
+  "username": "kiet"
+}
+
+###
+
+### Lấy danh sách sách (yêu cầu token)
+GET http://127.0.0.1:5000/api/v3/books
+Authorization: {{token}}
+Content-Type: application/json
+
+###
+
+### Thêm sách mới (yêu cầu token)
+POST http://127.0.0.1:5000/api/v3/books
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "title": "Designing Data-Intensive Applications",
+  "author": "Martin Kleppmann"
+}
+
+
+
+### ============================
+### VERSION 4 - Cacheable + Full RESTful + Evaluation
+### ============================
+
+### Lấy danh sách (có Cache-Control)
+GET http://127.0.0.1:5000/api/v4/books
+Content-Type: application/json
+
+###
+
+### Lấy sách ID=1
+GET http://127.0.0.1:5000/api/v4/books/1
+Content-Type: application/json
+
+###
+
+### Thêm sách mới
+POST http://127.0.0.1:5000/api/v4/books
+Content-Type: application/json
+
+{
+  "title": "Deep Learning with Python",
+  "author": "François Chollet"
+}
+
+###
+
+### Xóa sách ID=2
+DELETE http://127.0.0.1:5000/api/v4/books/2
+Content-Type: application/json

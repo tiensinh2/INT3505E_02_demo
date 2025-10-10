@@ -1,50 +1,37 @@
-from flask import Flask, render_template, request, redirect, url_for
-import sqlite3
+from flask import Flask, jsonify
 
-app = Flask(__name__)
-DB = "database.db"
+# Import các phiên bản API
+from api.v1.books import bp as books_v1
+from api.v2.books import bp as books_v2
+from api.v3.books import bp as books_v3
+from api.v4.books import bp as books_v4
 
-def get_db():
-    conn = sqlite3.connect(DB)
-    conn.row_factory = sqlite3.Row
-    return conn
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+def create_app():
+    app = Flask(__name__)
 
-@app.route("/books")
-def books():
-    conn = get_db()
-    rows = conn.execute("SELECT * FROM books").fetchall()
-    conn.close()
-    return render_template("books.html", books=rows)
+    # Đăng ký blueprint theo version
+    app.register_blueprint(books_v1, url_prefix="/api/v1/books")
+    app.register_blueprint(books_v2, url_prefix="/api/v2/books")
+    app.register_blueprint(books_v3, url_prefix="/api/v3/books")
+    app.register_blueprint(books_v4, url_prefix="/api/v4/books")
 
-@app.route("/add_book", methods=["POST"])
-def add_book():
-    title = request.form["title"]
-    author = request.form["author"]
-    conn = get_db()
-    conn.execute("INSERT INTO books(title, author, available) VALUES(?,?,1)", (title, author))
-    conn.commit()
-    conn.close()
-    return redirect(url_for("books"))
+    @app.route("/")
+    def index():
+        return jsonify({
+            "project": "Library Management REST API",
+            "versions": {
+                "v1": "/api/v1/books",
+                "v2": "/api/v2/books",
+                "v3": "/api/v3/books",
+                "v4": "/api/v4/books"
+            },
+            "info": "Each version demonstrates a higher REST maturity level."
+        })
 
-@app.route("/borrow/<int:book_id>")
-def borrow(book_id):
-    conn = get_db()
-    conn.execute("UPDATE books SET available=0 WHERE id=?", (book_id,))
-    conn.commit()
-    conn.close()
-    return redirect(url_for("books"))
+    return app
 
-@app.route("/return/<int:book_id>")
-def return_book(book_id):
-    conn = get_db()
-    conn.execute("UPDATE books SET available=1 WHERE id=?", (book_id,))
-    conn.commit()
-    conn.close()
-    return redirect(url_for("books"))
 
 if __name__ == "__main__":
+    app = create_app()
     app.run(debug=True)
