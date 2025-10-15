@@ -4,13 +4,13 @@ from models.data import BOOKS
 
 app = Flask(__name__)
 
-# Swagger UI setup
+# Swagger UI setup (dùng OpenAPI YAML)
 SWAGGER_URL = '/apidocs'
-API_URL = '/static/books_api.yaml'  # URL tĩnh YAML
+API_URL = '/static/books_api.yaml'  # Đường dẫn file OpenAPI 3.0
 swaggerui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,
     API_URL,
-    config={'app_name': "Books API"}
+    config={'app_name': "Books API (OpenAPI 3.0)"}
 )
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
