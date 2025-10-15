@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  title: Books API
+  version: "1.0.0"
+paths:
+  /api/v1/books:
+    get:
+      summary: Lấy danh sách sách
+      responses:
+        200:
+          description: Danh sách sách
+    post:
+      summary: Thêm sách mới
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                author:
+                  type: string
+      responses:
+        201:
+          description: Sách được tạo
+  /api/v1/books/{book_id}:
+    get:
+      summary: Lấy chi tiết 1 cuốn sách
+      parameters:
+        - in: path
+          name: book_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Thông tin sách
+        404:
+          description: Không tìm thấy sách
+    put:
+      summary: Cập nhật sách
+      parameters:
+        - in: path
+          name: book_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                author:
+                  type: string
+      responses:
+        200:
+          description: Sách được cập nhật
+        404:
+          description: Không tìm thấy sách
+    delete:
+      summary: Xóa sách
+      parameters:
+        - in: path
+          name: book_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Sách bị xóa
