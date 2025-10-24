@@ -1,0 +1,5 @@
+[
+  { "id": 1, "title": "Deep Learning", "author": "Ian Goodfellow" },
+  { "id": 2, "title": "Machine Learning for Trading", "author": "Stefan Jansen" },
+  { "id": 3, "title": "Think Stats", "author": "Allen B. Downey" }
+]
