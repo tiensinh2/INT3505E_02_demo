@@ -1,0 +1,114 @@
+openapi: 3.0.0
+info:
+  title: Product API
+  version: 1.0.0
+servers:
+- url: http://localhost:3000
+paths:
+  /products:
+    get:
+      operationId: productsGET
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Product"
+                type: array
+          description: OK
+      summary: Lấy tất cả product
+      x-eov-operation-handler: controllers/DefaultController
+    post:
+      operationId: productsPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+        required: true
+      responses:
+        "201":
+          description: Created
+      summary: Tạo product mới
+      x-eov-operation-handler: controllers/DefaultController
+  /products/{id}:
+    delete:
+      operationId: productsIdDELETE
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Deleted
+        "404":
+          description: Not found
+      summary: Xóa product theo ID
+      x-eov-operation-handler: controllers/DefaultController
+    get:
+      operationId: productsIdGET
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+          description: OK
+        "404":
+          description: Not found
+      summary: Lấy product theo ID
+      x-eov-operation-handler: controllers/DefaultController
+    put:
+      operationId: productsIdPUT
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+        required: true
+      responses:
+        "200":
+          description: Updated
+        "404":
+          description: Not found
+      summary: Cập nhật product theo ID
+      x-eov-operation-handler: controllers/DefaultController
+components:
+  schemas:
+    Product:
+      example:
+        price: 0.8008281904610115
+        name: name
+        description: description
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        description:
+          type: string
+      required:
+      - name
+      - price
+      type: object
